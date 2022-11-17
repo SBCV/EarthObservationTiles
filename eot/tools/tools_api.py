@@ -51,7 +51,6 @@ def run_tile_images(
     tile_odp,
     tile_overview_txt_ofn,
     dataset_type,
-    bands,
     output_tile_size_pixel,
     tile_type,
     input_tile_zoom_level=None,
@@ -63,6 +62,7 @@ def run_tile_images(
     tile_overhang=None,
     keep_border_tiles=None,
     create_aux_files=False,
+    bands=None,
     write_labels=False,
     config_ifp=None,
     cover_csv_ifp=None,
@@ -129,8 +129,9 @@ def run_tile_images(
         tool_param_list += ["--output_tile_size_pixel", tile_size_string]
 
     tool_param_list += ["--dataset_type", dataset_type]
-    band_string = ",".join(str(b) for b in bands)
-    tool_param_list += ["--bands", band_string]
+    if bands is not None:
+        band_string = ",".join(str(b) for b in bands)
+        tool_param_list += ["--bands", band_string]
     tool_param_list += ["--no_data_threshold", str(no_data_threshold)]
 
     tif_ifps = _get_ifps(tif_idp, tif_search_regex, tif_ignore_regex)
