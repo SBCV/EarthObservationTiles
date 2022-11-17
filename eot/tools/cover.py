@@ -14,14 +14,14 @@ from eot.tiles.tile_manager import TileManager
 from eot.geojson_ext.read_utility import (
     read_geojson_features,
 )
-from neat_eo.geojson_ext.parse_per_tile_utility import (
+from eot.geojson_ext.parse_per_tile_utility import (
     parse_geojson_feature_per_tile,
 )
 from eot.tiles.tile import Tile
 from eot.rasters.raster import Raster
 from eot.crs.crs import EPSG_4326
 from eot.crs.crs import transform_bounds
-from neat_eo.core.log import Logs
+from eot.core.log import Logs
 
 
 def add_parser(subparser, formatter_class):
