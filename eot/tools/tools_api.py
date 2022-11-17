@@ -10,6 +10,7 @@ from eot.core.log import Logs
 from eot.tools.aggregate import main as aggregate_main
 from eot.tools.cover import main as cover_main
 from eot.tools.tile import main as tile_main
+from eot.utility.os_extension import get_regex_fps_in_dp
 
 
 def log_status(tool_name, output):
@@ -24,24 +25,6 @@ def to_shell_str(param_list):
 
 def log_shell_command(tool_name, param_list):
     Logs.sinfo("neo " + tool_name + " " + to_shell_str(param_list))
-
-
-def _get_ifps(idp, search_regex, ignore_regex):
-
-    glob_search_expr = os.path.join(idp, search_regex)
-    search_ifps = glob.glob(glob_search_expr, recursive=True)
-
-    glob_ignore_expr = os.path.join(idp, ignore_regex)
-    ignore_ifps = glob.glob(glob_ignore_expr, recursive=True)
-    # Use a set to accelerate existence check: https://wiki.python.org/moin/TimeComplexity
-    ignore_ifps_set = set(ignore_ifps)
-    ifps = [ifp for ifp in search_ifps if ifp not in ignore_ifps_set]
-    err_msg = (
-        f"Found no images using {{{glob_search_expr} / {glob_ignore_expr}}}"
-    )
-    assert len(ifps), err_msg
-
-    return ifps
 
 
 def run_tile_images(
@@ -134,7 +117,7 @@ def run_tile_images(
         tool_param_list += ["--bands", band_string]
     tool_param_list += ["--no_data_threshold", str(no_data_threshold)]
 
-    tif_ifps = _get_ifps(tif_idp, tif_search_regex, tif_ignore_regex)
+    tif_ifps = get_regex_fps_in_dp(tif_idp, tif_search_regex, tif_ignore_regex)
 
     tool_param_list += ["--raster_ifps"]
     for tif_ifp in tif_ifps:

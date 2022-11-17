@@ -1,3 +1,4 @@
+import glob
 import os
 import shutil
 from functools import reduce
@@ -49,6 +50,24 @@ def check_ext(ext):
             assert ele[0] == ".", "Invalid extension, leading dot missing"
     else:
         assert ext[0] == ".", "Invalid extension, leading dot missing"
+
+
+def get_regex_fps_in_dp(idp, search_regex, ignore_regex):
+
+    glob_search_expr = os.path.join(idp, search_regex)
+    search_ifps = glob.glob(glob_search_expr, recursive=True)
+
+    glob_ignore_expr = os.path.join(idp, ignore_regex)
+    ignore_ifps = glob.glob(glob_ignore_expr, recursive=True)
+    # Use a set to accelerate existence check: https://wiki.python.org/moin/TimeComplexity
+    ignore_ifps_set = set(ignore_ifps)
+    ifps = [ifp for ifp in search_ifps if ifp not in ignore_ifps_set]
+    err_msg = (
+        f"Found no images using {{{glob_search_expr} / {glob_ignore_expr}}}"
+    )
+    assert len(ifps), err_msg
+
+    return ifps
 
 
 def get_file_paths_in_dir(
