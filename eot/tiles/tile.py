@@ -53,32 +53,57 @@ class TileType:
         return self._aligned_to_image
 
 
+class MercatorTileType(TileType):
+    def __init__(self):
+        super().__init__("mercator", is_mercator_tile=True)
+
+
+class ImageAlignedPixelSizeTileType(TileType):
+    def __init__(self):
+        super().__init__(
+            "image_aligned_pixel_size",
+            is_local_image_tile=True,
+            in_pixel=True,
+            aligned_to_image=True,
+        )
+
+
+class ImageCenteredPixelSizeTileType(TileType):
+    def __init__(self):
+        super().__init__(
+            "image_centered_pixel_size",
+            is_local_image_tile=True,
+            in_pixel=True,
+            centered_to_image=True,
+        )
+
+
+class ImageAlignedMeterSizeTileType(TileType):
+    def __init__(self):
+        super().__init__(
+            "image_aligned_meter_size",
+            is_local_image_tile=True,
+            in_meter=True,
+            aligned_to_image=True,
+        )
+
+
+class ImageCenteredMeterSizeTileType(TileType):
+    def __init__(self):
+        super().__init__(
+            "image_centered_meter_size",
+            is_local_image_tile=True,
+            in_meter=True,
+            centered_to_image=True,
+        )
+
+
 class TileTypes(Enum):
-    mercator = TileType("mercator", is_mercator_tile=True)
-    image_aligned_pixel_size = TileType(
-        "image_aligned_pixel_size",
-        is_local_image_tile=True,
-        in_pixel=True,
-        aligned_to_image=True,
-    )
-    image_centered_pixel_size = TileType(
-        "image_centered_pixel_size",
-        is_local_image_tile=True,
-        in_pixel=True,
-        centered_to_image=True,
-    )
-    image_aligned_meter_size = TileType(
-        "image_aligned_meter_size",
-        is_local_image_tile=True,
-        in_meter=True,
-        aligned_to_image=True,
-    )
-    image_centered_meter_size = TileType(
-        "image_centered_meter_size",
-        is_local_image_tile=True,
-        in_meter=True,
-        centered_to_image=True,
-    )
+    mercator = MercatorTileType()
+    image_aligned_pixel_size = ImageAlignedPixelSizeTileType()
+    image_centered_pixel_size = ImageCenteredPixelSizeTileType()
+    image_aligned_meter_size = ImageAlignedMeterSizeTileType()
+    image_centered_meter_size = ImageCenteredMeterSizeTileType()
 
 
 def _transform_coord_list(src_crs_list, scr_crs, dst_crs):

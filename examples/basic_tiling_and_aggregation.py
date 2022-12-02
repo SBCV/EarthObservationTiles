@@ -1,6 +1,6 @@
 import os
 from eot.tools.tools_api import run_tile_images
-from eot.tiles.tile import TileTypes
+from eot.tiles.tile import ImageCenteredMeterSizeTileType
 from eot.geojson_ext.tiles_utility import (
     create_geojson_for_image_tiles,
     create_geojson_for_label_tiles,
@@ -36,7 +36,7 @@ def main():
     dataset_type = "potsdam"
     tile_overview_txt_ofn = "tile_overview.txt"
     output_tile_size_pixel = [512, 512]
-    tile_type = TileTypes["image_centered_meter_size"].value
+    tile_type = ImageCenteredMeterSizeTileType()
     input_tile_size_in_meter = [75, 75]
     input_tile_stride_in_meter = [75, 75]
     grid_json_fn = "grid.json"
