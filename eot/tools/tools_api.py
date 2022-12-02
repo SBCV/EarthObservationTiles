@@ -153,7 +153,7 @@ def run_tile_images(
     tile_args = create_args(
         tool_name="tile",
         tool_param_list=tool_param_list,
-        module_dp="eot.tools"
+        module_dp="eot.tools",
     )
     tile_main(tile_args)
 
@@ -200,7 +200,7 @@ def run_cover(
     cover_args = create_args(
         tool_name="cover",
         tool_param_list=tool_param_list,
-        module_dp="eot.tools"
+        module_dp="eot.tools",
     )
     cover_main(cover_args)
 
@@ -307,7 +307,7 @@ def run_aggregate(
     aggregate_args = create_args(
         tool_name="aggregate",
         tool_param_list=tool_param_list,
-        module_dp="eot.tools"
+        module_dp="eot.tools",
     )
     aggregate_main(aggregate_args)
 

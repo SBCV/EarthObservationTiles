@@ -20,7 +20,7 @@ def aggregate_dataset_tile_predictions_per_raster(
     aggregate_as_images,
     training_category_titles,
     grid_json_fn,
-    lazy
+    lazy,
 ):
     # Create for each raster image a json file reflecting the information
     # of the corresponding image-tiles
@@ -36,7 +36,7 @@ def aggregate_dataset_tile_predictions_per_raster(
         _create_normalization_odp(
             aggregate_save_normalized_raster,
             test_data_normalized_dp,
-            normalized_fp
+            normalized_fp,
         )
 
         aggregation_dn = os.path.splitext(os.path.basename(original_ifp))[0]
@@ -78,9 +78,7 @@ def aggregate_dataset_tile_predictions_per_raster(
 
 
 def _create_normalization_odp(
-    normalized_fp,
-    test_data_normalized_dp,
-    aggregate_save_normalized_raster
+    normalized_fp, test_data_normalized_dp, aggregate_save_normalized_raster
 ):
     if aggregate_save_normalized_raster and normalized_fp is not None:
         mkdir_safely(test_data_normalized_dp)

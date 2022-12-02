@@ -6,13 +6,13 @@ from eot.geojson_ext.tiles_utility import (
     create_geojson_for_label_tiles,
 )
 from eot.aggregation.aggregate_tiles import (
-    aggregate_dataset_tile_predictions_per_raster
+    aggregate_dataset_tile_predictions_per_raster,
 )
+
 
 def main():
 
     working_dp = "/path/to/eot_test"
-
     raster_data_idp = os.path.join(working_dp, "raster")
     toml_config_fp = os.path.join(working_dp, "pipeline.toml")
     image_tile_dp = os.path.join(working_dp, "image_tiles")
@@ -30,7 +30,7 @@ def main():
         "tree",
         "impervious_surfaces",
         "low_vegetation",
-        "car"
+        "car",
     ]
 
     dataset_type = "potsdam"
@@ -82,7 +82,7 @@ def main():
         image_search_regex,
         image_ignore_regex,
         image_tile_dp,
-        grid_json_fn
+        grid_json_fn,
     )
 
     # Create a geojson grid defining the location of the label tiles as well as
