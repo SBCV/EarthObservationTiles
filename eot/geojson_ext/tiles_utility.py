@@ -1,12 +1,13 @@
 import os
-from eot.tiles.tile_manager import TileManager
-from eot.tools.aggregate_utility.geojson import create_grid_geojson
 from eot.utility.os_extension import makedirs_safely
+from eot.utility.os_extension import get_regex_fps_in_dp
+
+from eot.tiles.tile_manager import TileManager
 from eot.tiles.tile_path_manager import TilePathManager
 from eot.tiles.image_pixel_tile import ImagePixelTile
 from eot.tiles.mercator_tile import MercatorTile
-from eot.utility.os_extension import get_regex_fps_in_dp
 from eot.tools.tools_api import run_aggregate
+from eot.tools.aggregate_utility.geojson import create_grid_geojson
 
 
 def _create_geojson_tile_grid(idp, geojson_ofp, original_ifp=None):
