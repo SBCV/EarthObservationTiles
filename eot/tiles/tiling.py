@@ -390,7 +390,7 @@ class Tiler:
     def get_tiles(
         cls,
         raster,
-        tile_type,
+        tiling_scheme,
         input_tile_zoom_level=None,
         input_tile_size_in_meter=None,
         input_tile_size_in_pixel=None,
@@ -401,13 +401,13 @@ class Tiler:
         return_tiling_info=False,
     ):
         assert align_to_base_tile_area is not None
-        if tile_type.is_mercator_tile():
+        if tiling_scheme.represents_mercator_tiling():
             assert input_tile_zoom_level is not None
             # Spherical mercator tiles (as in Google Maps, OSM, Mapbox, etc.)
             # https://mercantile.readthedocs.io/en/latest/quickstart.html
             tiles = cls.compute_mercator_tiles(raster, input_tile_zoom_level)
             tiling_info = TilingInfo()
-        elif tile_type.is_in_pixel():
+        elif tiling_scheme.is_in_pixel():
             assert input_tile_size_in_pixel is not None
             (
                 input_tile_size_x_in_pixel,
@@ -428,11 +428,11 @@ class Tiler:
                 input_tile_size_y_in_pixel,
                 input_tile_stride_x_in_pixel,
                 input_tile_stride_y_in_pixel,
-                centered=tile_type.is_centered_to_image(),
+                centered=tiling_scheme.is_centered_to_image(),
                 align_to_base_tile_area=align_to_base_tile_area,
                 tile_overhang=tile_overhang,
             )
-        elif tile_type.is_in_meter():
+        elif tiling_scheme.is_in_meter():
             assert input_tile_size_in_meter is not None
             (
                 input_tile_size_x_in_meter,
@@ -453,12 +453,12 @@ class Tiler:
                 input_tile_size_y_in_meter,
                 input_tile_stride_x_in_meter,
                 input_tile_stride_y_in_meter,
-                centered=tile_type.is_centered_to_image(),
+                centered=tiling_scheme.is_centered_to_image(),
                 align_to_base_tile_area=align_to_base_tile_area,
                 tile_overhang=tile_overhang,
             )
         else:
-            assert False, f"Unsupported tile type {tile_type}"
+            assert False, f"Unsupported tile type {tiling_scheme}"
         if return_tiling_info:
             return tiles, tiling_info
         return tiles
@@ -467,7 +467,7 @@ class Tiler:
     def get_tiles_with_disk_size(
         cls,
         raster,
-        tile_type,
+        tiling_scheme,
         tile_disk_width,
         tile_disk_height,
         input_tile_zoom_level=None,
@@ -476,7 +476,7 @@ class Tiler:
     ):
         tiles = cls.get_tiles(
             raster,
-            tile_type,
+            tiling_scheme,
             input_tile_zoom_level,
             input_tile_size_in_meter,
             input_tile_size_in_pixel,

@@ -13,7 +13,7 @@ def aggregate_dataset_tile_predictions_per_raster(
     search_regex,
     ignore_regex,
     toml_config_fp,
-    tile_type,
+    tiling_scheme,
     test_data_normalized_dp,
     aggregate_save_normalized_raster,
     aggregate_as_json,
@@ -29,7 +29,7 @@ def aggregate_dataset_tile_predictions_per_raster(
     )
 
     normalized_fps = _get_normalized_fps(
-        original_ifps, test_data_normalized_dp, tile_type
+        original_ifps, test_data_normalized_dp, tiling_scheme
     )
 
     for original_ifp, normalized_fp in zip(original_ifps, normalized_fps):
@@ -85,9 +85,9 @@ def _create_normalization_odp(
         mkdir_safely(os.path.dirname(normalized_fp))
 
 
-def _get_normalized_fps(original_ifps, test_data_normalized_dp, tile_type):
+def _get_normalized_fps(original_ifps, test_data_normalized_dp, tiling_scheme):
     # Normalized paths are only required for mercator tiles
-    if tile_type.is_mercator_tile():
+    if tiling_scheme.represents_mercator_tiling():
         normalized_fps = []
         for original_ifp in original_ifps:
             normalized_fp = os.path.join(

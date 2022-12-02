@@ -1,6 +1,6 @@
 import os
 from eot.tools.tools_api import run_tile_images
-from eot.tiles.tile import ImageCenteredMeterSizeTileType
+from eot.tiles.tile import ImageCenteredMeterSizeTilingScheme
 from eot.geojson_ext.tiles_utility import (
     create_geojson_for_image_tiles,
     create_geojson_for_label_tiles,
@@ -36,7 +36,7 @@ def main():
     dataset_type = "potsdam"
     tile_overview_txt_ofn = "tile_overview.txt"
     output_tile_size_pixel = [512, 512]
-    tile_type = ImageCenteredMeterSizeTileType()
+    tile_type = ImageCenteredMeterSizeTilingScheme()
     input_tile_size_in_meter = [75, 75]
     input_tile_stride_in_meter = [75, 75]
     grid_json_fn = "grid.json"
@@ -52,7 +52,7 @@ def main():
         tile_overview_txt_ofn=tile_overview_txt_ofn,
         dataset_type=dataset_type,
         output_tile_size_pixel=output_tile_size_pixel,
-        tile_type=tile_type,
+        tiling_scheme=tile_type,
         input_tile_size_in_meter=input_tile_size_in_meter,
         input_tile_stride_in_meter=input_tile_stride_in_meter,
         # create_aux_files=create_tile_aux_files
@@ -66,7 +66,7 @@ def main():
         tile_overview_txt_ofn=tile_overview_txt_ofn,
         dataset_type=dataset_type,
         output_tile_size_pixel=output_tile_size_pixel,
-        tile_type=tile_type,
+        tiling_scheme=tile_type,
         input_tile_size_in_meter=input_tile_size_in_meter,
         input_tile_stride_in_meter=input_tile_stride_in_meter,
         write_labels=True,
@@ -106,7 +106,7 @@ def main():
         search_regex=image_search_regex,
         ignore_regex=image_ignore_regex,
         toml_config_fp=toml_config_fp,
-        tile_type=tile_type,
+        tiling_scheme=tile_type,
         test_data_normalized_dp=None,
         aggregate_save_normalized_raster=False,
         aggregate_as_json=aggregate_as_json,

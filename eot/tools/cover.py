@@ -117,7 +117,7 @@ def _get_cover_from_raster(args):
         with Raster.get_from_file(os.path.expanduser(raster_file)) as raster:
             try:
                 tiles = raster.get_tiles(
-                    tile_type=args.tile_type, zoom=args.zoom
+                    tiling_scheme=args.tiling_scheme, zoom=args.zoom
                 )
             except:
                 print(

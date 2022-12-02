@@ -52,7 +52,7 @@ class DataConfig(BaseModel):
 
 class TileConfig(BaseModel):
     # NB: tile_size = (tile_width, tile_height)
-    tile_type: str
+    tiling_scheme: str
     input_tile_zoom_level: int = None
     input_tile_size_in_pixel: Tuple[int, int] = None
     input_tile_size_in_meter: Tuple[float, float] = None

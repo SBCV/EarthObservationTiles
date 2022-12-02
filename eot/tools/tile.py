@@ -19,7 +19,7 @@ from eot.tiles.read_write_tile import (
     write_label_tile_to_file,
 )
 from eot.tiles.image_pixel_tile import ImagePixelTile
-from eot.tiles.tile import TileTypes
+from eot.tiles.tile import TilingSchemes
 from eot.tiles.tile_path_manager import TilePathManager
 from eot.tiles.tile_manager import TileManager
 from eot.rasters.raster import Raster
@@ -63,10 +63,10 @@ def add_parser(subparser, formatter_class):
 
     out = parser.add_argument_group("Output")
     out.add_argument(
-        "--tile_type",
+        "--tiling_scheme",
         type=str,
         required=True,
-        help="tile type of tiles [required]",
+        help="tiling scheme used to compute the tiles [required]",
     )
 
     # https://docs.python.org/3/library/argparse.html#mutual-exclusion
@@ -298,8 +298,8 @@ def _initialize_out(args):
     return args
 
 
-def _initialize_tile_type(args):
-    args.tile_type = TileTypes[args.tile_type].value
+def _initialize_tiling_scheme(args):
+    args.tiling_scheme = TilingSchemes[args.tiling_scheme].value
     return args
 
 
@@ -361,7 +361,7 @@ def _compute_raster_fp_to_tiles(
         assert args_band_indices.issubset(raster_band_indices), err_msg
 
         tiles = raster.get_tiles(
-            tile_type=args.tile_type,
+            tiling_scheme=args.tiling_scheme,
             input_tile_zoom_level=args.zoom,
             input_tile_size_in_pixel=args.input_tile_size_in_pixel,
             input_tile_size_in_meter=args.input_tile_size_in_meter,
@@ -373,7 +373,7 @@ def _compute_raster_fp_to_tiles(
         for tile in tiles:
             tile.disk_height = tile_disk_height
             tile.disk_width = tile_disk_width
-        if args.tile_type.is_local_image_tile():
+        if args.tiling_scheme.represents_local_image_tiling():
             for tile in tiles:
                 if tile.get_raster_transform() is not None:
                     tile.compute_and_set_tile_transform()
@@ -818,7 +818,7 @@ def _write_tile_overview(
         )
         overview_file.write(threshold_line)
         meta_info = create_meta_info(
-            tile_type=args.tile_type,
+            tiling_scheme=args.tiling_scheme,
             input_tile_zoom_level=args.zoom,
             input_tile_size_in_pixel=args.input_tile_size_in_pixel,
             input_tile_size_in_meter=args.input_tile_size_in_meter,
@@ -929,7 +929,7 @@ def main(args):
     args = _initialize_input_tile_stride_in_meter(args)
     args = _initialize_workers(args)
     args = _initialize_out(args)
-    args = _initialize_tile_type(args)
+    args = _initialize_tiling_scheme(args)
 
     cover = _compute_tile_cover(args.cover)
     _create_odp(args.out)
@@ -966,7 +966,7 @@ def main(args):
         log,
     )
 
-    if args.tile_type.is_mercator_tile():
+    if args.tiling_scheme.represents_mercator_tiling():
         _create_web_ui_files(
             args, tiles_in_single_raster + tiles_in_multiple_raster
         )

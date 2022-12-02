@@ -433,7 +433,7 @@ class Raster(rasterio.io.DatasetReader, BoundedArea):
 
     def get_tiles(
         self,
-        tile_type,
+        tiling_scheme,
         input_tile_zoom_level=None,
         input_tile_size_in_pixel=None,
         input_tile_size_in_meter=None,
@@ -446,7 +446,7 @@ class Raster(rasterio.io.DatasetReader, BoundedArea):
         assert align_to_base_tile_area is not None
         tiles, tiling_info = Tiler.get_tiles(
             raster=self,
-            tile_type=tile_type,
+            tiling_scheme=tiling_scheme,
             input_tile_zoom_level=input_tile_zoom_level,
             input_tile_size_in_pixel=input_tile_size_in_pixel,
             input_tile_size_in_meter=input_tile_size_in_meter,
@@ -462,7 +462,7 @@ class Raster(rasterio.io.DatasetReader, BoundedArea):
 
     def get_raster_tiles_with_disk_size(
         self,
-        tile_type,
+        tiling_scheme,
         tile_disk_width,
         tile_disk_height,
         input_tile_zoom_level=None,
@@ -473,7 +473,7 @@ class Raster(rasterio.io.DatasetReader, BoundedArea):
         raster = self
         tiles = Tiler.get_tiles_with_disk_size(
             raster,
-            tile_type,
+            tiling_scheme,
             tile_disk_width,
             tile_disk_height,
             input_tile_zoom_level,

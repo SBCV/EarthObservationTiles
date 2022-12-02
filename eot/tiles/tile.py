@@ -9,7 +9,7 @@ warnings.simplefilter(
 )  # To prevent rasterio NotGeoreferencedWarning
 
 
-class TileType:
+class TilingScheme:
     def __init__(
         self,
         name,
@@ -34,10 +34,10 @@ class TileType:
     def __str__(self):
         return self.name
 
-    def is_mercator_tile(self):
+    def represents_mercator_tiling(self):
         return self._is_mercator_tile
 
-    def is_local_image_tile(self):
+    def represents_local_image_tiling(self):
         return self._is_local_image_tile
 
     def is_in_meter(self):
@@ -53,12 +53,12 @@ class TileType:
         return self._aligned_to_image
 
 
-class MercatorTileType(TileType):
+class MercatorTilingScheme(TilingScheme):
     def __init__(self):
         super().__init__("mercator", is_mercator_tile=True)
 
 
-class ImageAlignedPixelSizeTileType(TileType):
+class ImageAlignedPixelSizeTilingScheme(TilingScheme):
     def __init__(self):
         super().__init__(
             "image_aligned_pixel_size",
@@ -68,7 +68,7 @@ class ImageAlignedPixelSizeTileType(TileType):
         )
 
 
-class ImageCenteredPixelSizeTileType(TileType):
+class ImageCenteredPixelSizeTilingScheme(TilingScheme):
     def __init__(self):
         super().__init__(
             "image_centered_pixel_size",
@@ -78,7 +78,7 @@ class ImageCenteredPixelSizeTileType(TileType):
         )
 
 
-class ImageAlignedMeterSizeTileType(TileType):
+class ImageAlignedMeterSizeTilingScheme(TilingScheme):
     def __init__(self):
         super().__init__(
             "image_aligned_meter_size",
@@ -88,7 +88,7 @@ class ImageAlignedMeterSizeTileType(TileType):
         )
 
 
-class ImageCenteredMeterSizeTileType(TileType):
+class ImageCenteredMeterSizeTilingScheme(TilingScheme):
     def __init__(self):
         super().__init__(
             "image_centered_meter_size",
@@ -98,12 +98,12 @@ class ImageCenteredMeterSizeTileType(TileType):
         )
 
 
-class TileTypes(Enum):
-    mercator = MercatorTileType()
-    image_aligned_pixel_size = ImageAlignedPixelSizeTileType()
-    image_centered_pixel_size = ImageCenteredPixelSizeTileType()
-    image_aligned_meter_size = ImageAlignedMeterSizeTileType()
-    image_centered_meter_size = ImageCenteredMeterSizeTileType()
+class TilingSchemes(Enum):
+    mercator = MercatorTilingScheme()
+    image_aligned_pixel_size = ImageAlignedPixelSizeTilingScheme()
+    image_centered_pixel_size = ImageCenteredPixelSizeTilingScheme()
+    image_aligned_meter_size = ImageAlignedMeterSizeTilingScheme()
+    image_centered_meter_size = ImageCenteredMeterSizeTilingScheme()
 
 
 def _transform_coord_list(src_crs_list, scr_crs, dst_crs):

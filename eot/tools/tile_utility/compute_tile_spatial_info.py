@@ -91,7 +91,7 @@ def _get_formatted_data(
 
 
 def create_meta_info(
-    tile_type,
+    tiling_scheme,
     input_tile_zoom_level,
     input_tile_size_in_pixel,
     input_tile_size_in_meter,
@@ -101,7 +101,7 @@ def create_meta_info(
     data_list = [
         _get_formatted_data(
             "tile type:\t\t\t\t",
-            str(tile_type),
+            str(tiling_scheme),
         )
     ]
     if input_tile_zoom_level is not None:

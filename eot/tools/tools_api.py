@@ -35,7 +35,7 @@ def run_tile_images(
     tile_overview_txt_ofn,
     dataset_type,
     output_tile_size_pixel,
-    tile_type,
+    tiling_scheme,
     input_tile_zoom_level=None,
     input_tile_size_in_pixel=None,
     input_tile_size_in_meter=None,
@@ -60,13 +60,13 @@ def run_tile_images(
         log_status("tile", tile_odp)
         return
 
-    tool_param_list = ["--tile_type", str(tile_type.name)]
-    if tile_type.is_mercator_tile():
+    tool_param_list = ["--tiling_scheme", str(tiling_scheme.name)]
+    if tiling_scheme.represents_mercator_tiling():
         assert input_tile_zoom_level is not None and isinstance(
             input_tile_zoom_level, int
         )
         tool_param_list += ["--zoom", str(input_tile_zoom_level)]
-    elif tile_type.is_in_pixel():
+    elif tiling_scheme.is_in_pixel():
         assert input_tile_size_in_pixel is not None
         tile_size_string = ",".join(
             str(tile_size) for tile_size in input_tile_size_in_pixel
@@ -80,7 +80,7 @@ def run_tile_images(
                 "--input_tile_stride_in_pixel",
                 tile_stride_string,
             ]
-    elif tile_type.is_in_meter():
+    elif tiling_scheme.is_in_meter():
         assert input_tile_size_in_meter is not None
         tile_size_string = ",".join(
             str(tile_size) for tile_size in input_tile_size_in_meter
