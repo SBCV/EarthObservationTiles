@@ -391,34 +391,29 @@ class Tiler:
         cls,
         raster,
         tiling_scheme,
-        input_tile_zoom_level=None,
-        input_tile_size_in_meter=None,
-        input_tile_size_in_pixel=None,
-        input_tile_stride_in_meter=None,
-        input_tile_stride_in_pixel=None,
-        align_to_base_tile_area=None,
-        tile_overhang=None,
         return_tiling_info=False,
     ):
-        assert align_to_base_tile_area is not None
         if tiling_scheme.represents_mercator_tiling():
-            assert input_tile_zoom_level is not None
+            zoom_level = tiling_scheme.get_zoom_level()
+            assert zoom_level is not None
             # Spherical mercator tiles (as in Google Maps, OSM, Mapbox, etc.)
             # https://mercantile.readthedocs.io/en/latest/quickstart.html
-            tiles = cls.compute_mercator_tiles(raster, input_tile_zoom_level)
+            tiles = cls.compute_mercator_tiles(raster, zoom_level)
             tiling_info = TilingInfo()
         elif tiling_scheme.is_in_pixel():
-            assert input_tile_size_in_pixel is not None
+            tile_size_in_pixel = tiling_scheme.get_tile_size_in_pixel()
+            assert tile_size_in_pixel is not None
             (
                 input_tile_size_x_in_pixel,
                 input_tile_size_y_in_pixel,
-            ) = input_tile_size_in_pixel
-            if input_tile_stride_in_pixel is None:
-                input_tile_stride_in_pixel = input_tile_size_in_pixel
+            ) = tile_size_in_pixel
+            tile_stride_in_pixel = tiling_scheme.get_tile_stride_in_pixel()
+            if tile_stride_in_pixel is None:
+                tile_stride_in_pixel = tile_size_in_pixel
             (
                 input_tile_stride_x_in_pixel,
                 input_tile_stride_y_in_pixel,
-            ) = input_tile_stride_in_pixel
+            ) = tile_stride_in_pixel
             (
                 tiles,
                 tiling_info,
@@ -429,21 +424,23 @@ class Tiler:
                 input_tile_stride_x_in_pixel,
                 input_tile_stride_y_in_pixel,
                 centered=tiling_scheme.is_centered_to_image(),
-                align_to_base_tile_area=align_to_base_tile_area,
-                tile_overhang=tile_overhang,
+                align_to_base_tile_area=tiling_scheme.is_aligned_to_base_tile_area(),
+                tile_overhang=tiling_scheme.uses_overhanging_tiles(),
             )
         elif tiling_scheme.is_in_meter():
-            assert input_tile_size_in_meter is not None
+            tile_size_in_meter = tiling_scheme.get_tile_size_in_meter()
+            assert tile_size_in_meter is not None
             (
                 input_tile_size_x_in_meter,
                 input_tile_size_y_in_meter,
-            ) = input_tile_size_in_meter
-            if input_tile_stride_in_meter is None:
-                input_tile_stride_in_meter = input_tile_size_in_meter
+            ) = tile_size_in_meter
+            tile_stride_in_meter = tiling_scheme.get_tile_stride_in_meter()
+            if tile_stride_in_meter is None:
+                tile_stride_in_meter = tile_size_in_meter
             (
                 input_tile_stride_x_in_meter,
                 input_tile_stride_y_in_meter,
-            ) = input_tile_stride_in_meter
+            ) = tile_stride_in_meter
             (
                 tiles,
                 tiling_info,
@@ -454,8 +451,8 @@ class Tiler:
                 input_tile_stride_x_in_meter,
                 input_tile_stride_y_in_meter,
                 centered=tiling_scheme.is_centered_to_image(),
-                align_to_base_tile_area=align_to_base_tile_area,
-                tile_overhang=tile_overhang,
+                align_to_base_tile_area=tiling_scheme.is_aligned_to_base_tile_area(),
+                tile_overhang=tiling_scheme.uses_overhanging_tiles(),
             )
         else:
             assert False, f"Unsupported tile type {tiling_scheme}"
@@ -470,17 +467,8 @@ class Tiler:
         tiling_scheme,
         tile_disk_width,
         tile_disk_height,
-        input_tile_zoom_level=None,
-        input_tile_size_in_meter=None,
-        input_tile_size_in_pixel=None,
     ):
-        tiles = cls.get_tiles(
-            raster,
-            tiling_scheme,
-            input_tile_zoom_level,
-            input_tile_size_in_meter,
-            input_tile_size_in_pixel,
-        )
+        tiles = cls.get_tiles(raster, tiling_scheme)
         for tile in tiles:
             tile.disk_width = tile_disk_width
             tile.disk_height = tile_disk_height

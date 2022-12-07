@@ -299,7 +299,28 @@ def _initialize_out(args):
 
 
 def _initialize_tiling_scheme(args):
-    args.tiling_scheme = TilingSchemes[args.tiling_scheme].value
+    tiling_scheme = TilingSchemes[args.tiling_scheme].value
+    if tiling_scheme.represents_mercator_tiling():
+        tiling_scheme.set_zoom_level(args.zoom)
+
+    if tiling_scheme.represents_local_image_tiling():
+        if tiling_scheme.is_in_pixel():
+            tiling_scheme.set_tile_size_in_pixel(args.input_tile_size_in_pixel)
+            tiling_scheme.set_tile_stride_in_pixel(
+                args.input_tile_stride_in_pixel
+            )
+
+        if tiling_scheme.is_in_meter():
+            tiling_scheme.set_tile_size_in_meter(args.input_tile_size_in_meter)
+            tiling_scheme.set_tile_stride_in_meter(
+                args.input_tile_stride_in_meter
+            )
+
+        tiling_scheme.set_aligned_to_base_tile_area_flag(
+            args.align_to_base_tile_area
+        )
+        tiling_scheme.set_overhanging_tiles_flag(args.tile_overhang)
+    args.tiling_scheme = tiling_scheme
     return args
 
 
@@ -346,9 +367,7 @@ def _get_config_category_sorted(write_labels, config_ifp):
     return config_categories_sorted
 
 
-def _compute_raster_fp_to_tiles(
-    args, cover, log, align_to_base_tile_area=None, tile_overhang=None
-):
+def _compute_raster_fp_to_tiles(args, cover, log):
     raster_fp_to_tiles = {}
     tile_disk_width, tile_disk_height = args.output_tile_size_pixel
 
@@ -360,16 +379,7 @@ def _compute_raster_fp_to_tiles(
         err_msg = f"Missing required bands ({args_band_indices}) in raster {raster_fp} ({raster_band_indices})"
         assert args_band_indices.issubset(raster_band_indices), err_msg
 
-        tiles = raster.get_tiles(
-            tiling_scheme=args.tiling_scheme,
-            input_tile_zoom_level=args.zoom,
-            input_tile_size_in_pixel=args.input_tile_size_in_pixel,
-            input_tile_size_in_meter=args.input_tile_size_in_meter,
-            input_tile_stride_in_pixel=args.input_tile_stride_in_pixel,
-            input_tile_stride_in_meter=args.input_tile_stride_in_meter,
-            align_to_base_tile_area=align_to_base_tile_area,
-            tile_overhang=tile_overhang,
-        )
+        tiles = raster.get_tiles(tiling_scheme=args.tiling_scheme)
         for tile in tiles:
             tile.disk_height = tile_disk_height
             tile.disk_width = tile_disk_width
@@ -817,14 +827,7 @@ def _write_tile_overview(
             f"No-data-threshold to filter tiles: {no_data_threshold}%{sep}"
         )
         overview_file.write(threshold_line)
-        meta_info = create_meta_info(
-            tiling_scheme=args.tiling_scheme,
-            input_tile_zoom_level=args.zoom,
-            input_tile_size_in_pixel=args.input_tile_size_in_pixel,
-            input_tile_size_in_meter=args.input_tile_size_in_meter,
-            input_tile_stride_in_pixel=args.input_tile_stride_in_pixel,
-            input_tile_stride_in_meter=args.input_tile_stride_in_meter,
-        )
+        meta_info = create_meta_info(tiling_scheme=args.tiling_scheme)
         for data in meta_info:
             data_line, _ = data
             overview_file.write(data_line + sep)
@@ -942,9 +945,7 @@ def main(args):
         + f"on CPU with {args.workers} workers"
     )
 
-    raster_fp_to_tiles = _compute_raster_fp_to_tiles(
-        args, cover, log, args.align_to_base_tile_area, args.tile_overhang
-    )
+    raster_fp_to_tiles = _compute_raster_fp_to_tiles(args, cover, log)
     if args.debug_max_number_tiles_per_image:
         for raster_fp, tiles in raster_fp_to_tiles.items():
             raster_fp_to_tiles[raster_fp] = tiles[

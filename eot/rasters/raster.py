@@ -434,26 +434,11 @@ class Raster(rasterio.io.DatasetReader, BoundedArea):
     def get_tiles(
         self,
         tiling_scheme,
-        input_tile_zoom_level=None,
-        input_tile_size_in_pixel=None,
-        input_tile_size_in_meter=None,
-        input_tile_stride_in_pixel=None,
-        input_tile_stride_in_meter=None,
-        align_to_base_tile_area=None,
-        tile_overhang=None,
         return_tiling_info=False,
     ):
-        assert align_to_base_tile_area is not None
         tiles, tiling_info = Tiler.get_tiles(
             raster=self,
             tiling_scheme=tiling_scheme,
-            input_tile_zoom_level=input_tile_zoom_level,
-            input_tile_size_in_pixel=input_tile_size_in_pixel,
-            input_tile_size_in_meter=input_tile_size_in_meter,
-            input_tile_stride_in_pixel=input_tile_stride_in_pixel,
-            input_tile_stride_in_meter=input_tile_stride_in_meter,
-            align_to_base_tile_area=align_to_base_tile_area,
-            tile_overhang=tile_overhang,
             return_tiling_info=True,
         )
         if return_tiling_info:
@@ -465,9 +450,6 @@ class Raster(rasterio.io.DatasetReader, BoundedArea):
         tiling_scheme,
         tile_disk_width,
         tile_disk_height,
-        input_tile_zoom_level=None,
-        input_tile_size_in_meter=None,
-        input_tile_size_in_pixel=None,
     ):
         # https://mercantile.readthedocs.io/en/latest/quickstart.html
         raster = self
@@ -476,9 +458,6 @@ class Raster(rasterio.io.DatasetReader, BoundedArea):
             tiling_scheme,
             tile_disk_width,
             tile_disk_height,
-            input_tile_zoom_level,
-            input_tile_size_in_meter,
-            input_tile_size_in_pixel,
         )
         return tiles
 

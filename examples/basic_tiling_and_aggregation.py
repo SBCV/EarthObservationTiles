@@ -36,9 +36,9 @@ def main():
     dataset_type = "potsdam"
     tile_overview_txt_ofn = "tile_overview.txt"
     output_tile_size_pixel = [512, 512]
-    tile_type = ImageCenteredMeterSizeTilingScheme()
-    input_tile_size_in_meter = [75, 75]
-    input_tile_stride_in_meter = [75, 75]
+    tiling_scheme = ImageCenteredMeterSizeTilingScheme()
+    tiling_scheme.set_tile_size_in_meter([75, 75])
+    tiling_scheme.set_tile_stride_in_meter([75, 75])
     grid_json_fn = "grid.json"
 
     aggregate_as_json = True
@@ -52,9 +52,7 @@ def main():
         tile_overview_txt_ofn=tile_overview_txt_ofn,
         dataset_type=dataset_type,
         output_tile_size_pixel=output_tile_size_pixel,
-        tiling_scheme=tile_type,
-        input_tile_size_in_meter=input_tile_size_in_meter,
-        input_tile_stride_in_meter=input_tile_stride_in_meter,
+        tiling_scheme=tiling_scheme,
         # create_aux_files=create_tile_aux_files
     )
 
@@ -66,9 +64,7 @@ def main():
         tile_overview_txt_ofn=tile_overview_txt_ofn,
         dataset_type=dataset_type,
         output_tile_size_pixel=output_tile_size_pixel,
-        tiling_scheme=tile_type,
-        input_tile_size_in_meter=input_tile_size_in_meter,
-        input_tile_stride_in_meter=input_tile_stride_in_meter,
+        tiling_scheme=tiling_scheme,
         write_labels=True,
         config_ifp=toml_config_fp,
         convert_images_to_labels=True,
@@ -106,7 +102,7 @@ def main():
         search_regex=image_search_regex,
         ignore_regex=image_ignore_regex,
         toml_config_fp=toml_config_fp,
-        tiling_scheme=tile_type,
+        tiling_scheme=tiling_scheme,
         test_data_normalized_dp=None,
         aggregate_save_normalized_raster=False,
         aggregate_as_json=aggregate_as_json,

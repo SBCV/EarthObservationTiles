@@ -90,53 +90,46 @@ def _get_formatted_data(
     return data_line, data_dict
 
 
-def create_meta_info(
-    tiling_scheme,
-    input_tile_zoom_level,
-    input_tile_size_in_pixel,
-    input_tile_size_in_meter,
-    input_tile_stride_in_pixel,
-    input_tile_stride_in_meter,
-):
+def create_meta_info(tiling_scheme):
     data_list = [
         _get_formatted_data(
             "tile type:\t\t\t\t",
             str(tiling_scheme),
         )
     ]
-    if input_tile_zoom_level is not None:
+    if tiling_scheme.represents_mercator_tiling():
         data_list.append(
             _get_formatted_data(
                 "zoom_level:\t\t\t\t",
-                input_tile_zoom_level,
+                tiling_scheme.get_zoom_level(),
             )
         )
-    if input_tile_size_in_pixel is not None:
-        data_list.append(
-            _get_formatted_data(
-                "input_tile_size_in_pixel:",
-                input_tile_size_in_pixel,
+    if tiling_scheme.represents_local_image_tiling():
+        if tiling_scheme.is_in_pixel():
+            data_list.append(
+                _get_formatted_data(
+                    "input_tile_size_in_pixel:",
+                    tiling_scheme.get_tile_size_in_pixel(),
+                )
             )
-        )
-    if input_tile_size_in_meter is not None:
-        data_list.append(
-            _get_formatted_data(
-                "input_tile_size_in_meter:",
-                input_tile_size_in_meter,
+            data_list.append(
+                _get_formatted_data(
+                    "input_tile_stride_in_pixel:",
+                    tiling_scheme.get_tile_stride_in_pixel(),
+                )
             )
-        )
-    if input_tile_stride_in_pixel is not None:
-        data_list.append(
-            _get_formatted_data(
-                "input_tile_stride_in_pixel:",
-                input_tile_stride_in_pixel,
+
+        if tiling_scheme.is_in_meter():
+            data_list.append(
+                _get_formatted_data(
+                    "input_tile_size_in_meter:",
+                    tiling_scheme.get_tile_size_in_meter(),
+                )
             )
-        )
-    if input_tile_stride_in_meter is not None:
-        data_list.append(
-            _get_formatted_data(
-                "input_tile_stride_in_meter:",
-                input_tile_stride_in_meter,
+            data_list.append(
+                _get_formatted_data(
+                    "input_tile_stride_in_meter:",
+                    tiling_scheme.get_tile_stride_in_meter(),
+                )
             )
-        )
     return data_list

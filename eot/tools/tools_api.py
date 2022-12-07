@@ -36,14 +36,6 @@ def run_tile_images(
     dataset_type,
     output_tile_size_pixel,
     tiling_scheme,
-    input_tile_zoom_level=None,
-    input_tile_size_in_pixel=None,
-    input_tile_size_in_meter=None,
-    input_tile_stride_in_pixel=None,
-    input_tile_stride_in_meter=None,
-    align_to_base_tile_area=None,
-    tile_overhang=None,
-    keep_border_tiles=None,
     create_aux_files=False,
     bands=None,
     write_labels=False,
@@ -62,33 +54,36 @@ def run_tile_images(
 
     tool_param_list = ["--tiling_scheme", str(tiling_scheme.name)]
     if tiling_scheme.represents_mercator_tiling():
-        assert input_tile_zoom_level is not None and isinstance(
-            input_tile_zoom_level, int
-        )
-        tool_param_list += ["--zoom", str(input_tile_zoom_level)]
+        zoom_level = tiling_scheme.get_tile_zoom_level()
+        assert zoom_level is not None and isinstance(zoom_level, int)
+        tool_param_list += ["--zoom", str(zoom_level)]
     elif tiling_scheme.is_in_pixel():
-        assert input_tile_size_in_pixel is not None
+        assert tiling_scheme.get_tile_size_in_pixel() is not None
         tile_size_string = ",".join(
-            str(tile_size) for tile_size in input_tile_size_in_pixel
+            str(tile_size)
+            for tile_size in tiling_scheme.get_tile_size_in_pixel()
         )
         tool_param_list += ["--input_tile_size_in_pixel", tile_size_string]
-        if input_tile_stride_in_pixel is not None:
+        if tiling_scheme.get_tile_stride_in_pixel() is not None:
             tile_stride_string = ",".join(
-                str(tile_stride) for tile_stride in input_tile_stride_in_pixel
+                str(tile_stride)
+                for tile_stride in tiling_scheme.get_tile_stride_in_pixel()
             )
             tool_param_list += [
                 "--input_tile_stride_in_pixel",
                 tile_stride_string,
             ]
     elif tiling_scheme.is_in_meter():
-        assert input_tile_size_in_meter is not None
+        assert tiling_scheme.get_tile_size_in_meter() is not None
         tile_size_string = ",".join(
-            str(tile_size) for tile_size in input_tile_size_in_meter
+            str(tile_size)
+            for tile_size in tiling_scheme.get_tile_size_in_meter()
         )
         tool_param_list += ["--input_tile_size_in_meter", tile_size_string]
-        if input_tile_stride_in_meter is not None:
+        if tiling_scheme.get_tile_stride_in_meter() is not None:
             tile_stride_string = ",".join(
-                str(tile_stride) for tile_stride in input_tile_stride_in_meter
+                str(tile_stride)
+                for tile_stride in tiling_scheme.get_tile_stride_in_meter()
             )
             tool_param_list += [
                 "--input_tile_stride_in_meter",
@@ -97,12 +92,14 @@ def run_tile_images(
     else:
         assert False
 
-    if align_to_base_tile_area:
+    if tiling_scheme.is_aligned_to_base_tile_area():
         tool_param_list += ["--align_to_base_tile_area"]
-    if keep_border_tiles:
+    if tiling_scheme.uses_border_tiles():
         tool_param_list += ["--keep_borders"]
-    if tile_overhang:
-        assert keep_border_tiles, "--tile_overhang requires --keep_borders"
+    if tiling_scheme.uses_overhanging_tiles():
+        assert (
+            tiling_scheme.uses_border_tiles()
+        ), "--tile_overhang requires --keep_borders"
         tool_param_list += ["--tile_overhang"]
 
     if output_tile_size_pixel is not None:

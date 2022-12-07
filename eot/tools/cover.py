@@ -10,6 +10,7 @@ from tqdm import tqdm
 from random import shuffle
 
 from eot.core import web_ui
+from eot.tiles.tile import TilingSchemes
 from eot.tiles.tile_manager import TileManager
 from eot.geojson_ext.read_utility import (
     read_geojson_features,
@@ -116,9 +117,12 @@ def _get_cover_from_raster(args):
     for raster_file in args.raster:
         with Raster.get_from_file(os.path.expanduser(raster_file)) as raster:
             try:
-                tiles = raster.get_tiles(
-                    tiling_scheme=args.tiling_scheme, zoom=args.zoom
-                )
+                tiling_scheme = TilingSchemes[args.tiling_scheme].value
+                if tiling_scheme.represents_mercator_tiling():
+                    tiling_scheme.set_zoom_level(args.zoom)
+                if tiling_scheme.represents_local_image_tiling():
+                    raise NotImplementedError
+                tiles = raster.get_tiles(tiling_scheme=tiling_scheme)
             except:
                 print(
                     "WARNING: projection error, SKIPPING: {}".format(

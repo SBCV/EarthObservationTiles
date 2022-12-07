@@ -15,21 +15,11 @@ class TilingScheme:
         name,
         is_mercator_tile=None,
         is_local_image_tile=None,
-        in_pixel=None,
-        in_meter=None,
-        centered_to_image=None,
-        aligned_to_image=None,
     ):
         assert not (is_mercator_tile and is_local_image_tile)
-        assert not (in_pixel and in_meter)
-        assert not (centered_to_image and aligned_to_image)
         self.name = name
         self._is_mercator_tile = is_mercator_tile
         self._is_local_image_tile = is_local_image_tile
-        self._in_pixel = in_pixel
-        self._in_meter = in_meter
-        self._centered_to_image = centered_to_image
-        self._aligned_to_image = aligned_to_image
 
     def __str__(self):
         return self.name
@@ -39,6 +29,44 @@ class TilingScheme:
 
     def represents_local_image_tiling(self):
         return self._is_local_image_tile
+
+
+class MercatorTilingScheme(TilingScheme):
+    def __init__(self, name="mercator_tiling", zoom_level=None):
+        super().__init__(name=name, is_mercator_tile=True)
+        self._zoom_level = zoom_level
+
+    def get_zoom_level(self):
+        return self._zoom_level
+
+    def set_zoom_level(self, zoom_level):
+        self._zoom_level = zoom_level
+
+
+class LocalImageTilingScheme(TilingScheme):
+    def __init__(
+        self,
+        name="local_image_tiling",
+        in_pixel=None,
+        in_meter=None,
+        centered_to_image=None,
+        aligned_to_image=None,
+        use_overhanging_tiles=None,
+        use_border_tiles=None,
+        aligned_to_base_tile_area=None,
+    ):
+        super().__init__(name=name, is_local_image_tile=True)
+
+        assert not (in_pixel and in_meter)
+        self._in_pixel = in_pixel
+        self._in_meter = in_meter
+
+        assert not (centered_to_image and aligned_to_image)
+        self._centered_to_image = centered_to_image
+        self._aligned_to_image = aligned_to_image
+        self._use_overhanging_tiles = use_overhanging_tiles
+        self._use_border_tiles = use_border_tiles
+        self._aligned_to_base_tile_area = aligned_to_base_tile_area
 
     def is_in_meter(self):
         return self._in_meter
@@ -52,48 +80,131 @@ class TilingScheme:
     def is_aligned_to_image(self):
         return self._aligned_to_image
 
+    def uses_overhanging_tiles(self):
+        return self._use_overhanging_tiles
 
-class MercatorTilingScheme(TilingScheme):
-    def __init__(self):
-        super().__init__("mercator", is_mercator_tile=True)
+    def uses_border_tiles(self):
+        return self._use_border_tiles
+
+    def is_aligned_to_base_tile_area(self):
+        return self._aligned_to_base_tile_area
+
+    def set_centered_to_image(self):
+        self._centered_to_image = True
+        self._aligned_to_image = False
+
+    def set_aligned_to_image(self):
+        self._aligned_to_image = True
+        self._centered_to_image = False
+
+    def set_overhanging_tiles_flag(self, use_overhanging_tiles):
+        self._use_overhanging_tiles = use_overhanging_tiles
+
+    def set_border_tiles_flag(self, use_border_tiles):
+        self._use_border_tiles = use_border_tiles
+
+    def set_aligned_to_base_tile_area_flag(self, align_to_base_tile_area):
+        self._aligned_to_base_tile_area = align_to_base_tile_area
 
 
-class ImageAlignedPixelSizeTilingScheme(TilingScheme):
+class PixelSizeTilingScheme(LocalImageTilingScheme):
+    def __init__(
+        self,
+        name="local_image_pixel_size_tiling",
+        centered_to_image=None,
+        aligned_to_image=None,
+        use_overhanging_tiles=None,
+        use_border_tiles=None,
+        aligned_to_base_tile_area=None,
+    ):
+        super().__init__(
+            name=name,
+            in_pixel=True,
+            centered_to_image=centered_to_image,
+            aligned_to_image=aligned_to_image,
+            use_overhanging_tiles=use_overhanging_tiles,
+            use_border_tiles=use_border_tiles,
+            aligned_to_base_tile_area=aligned_to_base_tile_area,
+        )
+        self._tile_size_in_pixel = None
+        self._tile_stride_in_pixel = None
+
+    def get_tile_size_in_pixel(self):
+        return self._tile_size_in_pixel
+
+    def get_tile_stride_in_pixel(self):
+        return self._tile_stride_in_pixel
+
+    def set_tile_size_in_pixel(self, tile_size_in_pixel):
+        self._tile_size_in_pixel = tile_size_in_pixel
+
+    def set_tile_stride_in_pixel(self, tile_stride_in_pixel):
+        self._tile_stride_in_pixel = tile_stride_in_pixel
+
+
+class MeterSizeTilingScheme(LocalImageTilingScheme):
+    def __init__(
+        self,
+        name="local_image_meter_size_tiling",
+        centered_to_image=None,
+        aligned_to_image=None,
+        use_overhanging_tiles=None,
+        use_border_tiles=None,
+        aligned_to_base_tile_area=None,
+    ):
+        super().__init__(
+            name=name,
+            in_meter=True,
+            centered_to_image=centered_to_image,
+            aligned_to_image=aligned_to_image,
+            use_overhanging_tiles=use_overhanging_tiles,
+            use_border_tiles=use_border_tiles,
+            aligned_to_base_tile_area=aligned_to_base_tile_area,
+        )
+        self._tile_size_in_meter = None
+        self._tile_stride_in_meter = None
+
+    def get_tile_size_in_meter(self):
+        return self._tile_size_in_meter
+
+    def get_tile_stride_in_meter(self):
+        return self._tile_stride_in_meter
+
+    def set_tile_size_in_meter(self, tile_size_in_meter):
+        self._tile_size_in_meter = tile_size_in_meter
+
+    def set_tile_stride_in_meter(self, tile_stride_in_meter):
+        self._tile_stride_in_meter = tile_stride_in_meter
+
+
+class ImageAlignedPixelSizeTilingScheme(PixelSizeTilingScheme):
     def __init__(self):
         super().__init__(
             "image_aligned_pixel_size",
-            is_local_image_tile=True,
-            in_pixel=True,
             aligned_to_image=True,
         )
 
 
-class ImageCenteredPixelSizeTilingScheme(TilingScheme):
+class ImageCenteredPixelSizeTilingScheme(PixelSizeTilingScheme):
     def __init__(self):
         super().__init__(
             "image_centered_pixel_size",
-            is_local_image_tile=True,
-            in_pixel=True,
             centered_to_image=True,
         )
 
 
-class ImageAlignedMeterSizeTilingScheme(TilingScheme):
+class ImageAlignedMeterSizeTilingScheme(MeterSizeTilingScheme):
     def __init__(self):
         super().__init__(
             "image_aligned_meter_size",
-            is_local_image_tile=True,
-            in_meter=True,
             aligned_to_image=True,
         )
 
 
-class ImageCenteredMeterSizeTilingScheme(TilingScheme):
+class ImageCenteredMeterSizeTilingScheme(MeterSizeTilingScheme):
     def __init__(self):
         super().__init__(
             "image_centered_meter_size",
-            is_local_image_tile=True,
-            in_meter=True,
             centered_to_image=True,
         )
 
