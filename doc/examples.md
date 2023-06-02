@@ -62,6 +62,8 @@ using the *raster* data of the *ISPRS Potsdam* dataset.
 - Creates for each input raster image a corresponding `grid.json` file
    representing the created tiles as geojson.
 
+<img align="middle" src="images/examples/eot_color_tiling_geojson_example.png" width="50%"/>
+
 ### EOT Color Tiling with tile specific geo-data (`eot_color_tiling_aux_xml_example.py`)
   - Divides all RGB raster images into EOT rgb tiles (similar to
      `eot_color_tiling_geojson_example.py`)
@@ -72,6 +74,8 @@ using the *raster* data of the *ISPRS Potsdam* dataset.
      geo-information from the corresponding `aux.xml` file to correctly 
      visualize the tile information
 
+<img align="middle" src="images/examples/eot_color_tiling_aux_xml_example.png" width="50%"/>
+
 ### EOT Label Tiling (`eot_label_tiling_geojson_example.py`)
 - Divides all label raster images into EOT label tiles
 - Creates a directory `<examples_dataset>/label_tiles` containing the
@@ -81,6 +85,8 @@ using the *raster* data of the *ISPRS Potsdam* dataset.
 - Creates for each input raster image and each dataset category a file with
    the aggregated category information (such as `building.json`,
    `car.json`, ...)
+
+<img align="middle" src="images/examples/eot_label_tiling_geojson_example.png" width="50%"/>
 
 ### EOT Label Fusion (`eot_label_fusion_example.py`)
   - Performs the full pipeline (tiling, tile fusion, tile aggregation) using
@@ -99,6 +105,8 @@ using the *raster* data of the *ISPRS Potsdam* dataset.
      `<examples_dataset>/fused_tiles_aggregated` show the composition of the
      reliable areas of each tile.
 
+<img align="middle" src="images/examples/eot_label_fusion_example.png" width="50%"/>
+
 ### EOT Color Fusion (`eot_color_fusion_example.py`)
   - Performs the full pipeline (similar to `eot_label_fusion_example.py`), but
      uses the RGB raster images to visualize the tiling and the fusion step.
@@ -115,6 +123,8 @@ using the *raster* data of the *ISPRS Potsdam* dataset.
      `<examples_dataset>/fused_tiles_aggregated` show the composition of the
      reliable areas of each tile.
 
+<img align="middle" src="images/examples/eot_color_fusion_example.png" width="50%"/>
+
 ## Web Map examples using the ISPRS Potsdam dataset:
 
 In addition to EOT tiles the library also supports web tiles (based on a
@@ -130,12 +140,16 @@ tiles do not allow to fuse semantic segmentations of adjacent tiles.
    (this differs from the EOT approach where a grid is created for each input
    raster image)
 
+<img align="middle" src="images/examples/web_color_tiling_geojson_example.png" width="50%"/>
+
 ### Web Label Aggregation (`web_label_tiling_aggregation_example.py`)
 - Creates a directory `<examples_dataset>/label_tiles` containing the
    web label tiles (similar to `eot_color_tiling_geojson_example.py`)
 - The web tiles base on a spherical mercator projection of the data
 - Creates `<examples_dataset>/tiles_aggregated` containing the aggregated
    results of the web label tiles using geojson files *and* raster images
+
+<img align="middle" src="images/examples/web_label_tiling_aggregation_example.png" width="50%"/>
 
 ## Rasterization examples using the Open Cities AI dataset:
 
