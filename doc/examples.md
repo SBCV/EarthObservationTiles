@@ -170,13 +170,19 @@ dataset.
 - Creates `<examples_dataset>/rasterized_tiles_aggregated` with the
    corresponding aggregated results
 
+<img align="middle" src="images/examples/eot_label_rasterization_aggregation_example.png" width="50%"/>
+
 ### EOT Tiling Aggregation (`eot_label_tiling_aggregation_example.py`)
 - Produces a similar result to `eot_label_rasterization_aggregation_example.py`
    but uses raster labels in the tif images (instead of the vector labels in
    the geojson files)
+
+<img align="middle" src="images/examples/eot_label_tiling_aggregation_example.png" width="50%"/>
 
 ### Web Rasterization Aggregation (`web_label_rasterization_aggregation_example.py`)
 - Create `<examples_dataset>/label_tiles_rasterized` with web label tiles
    derived from a geojson label files (instead of label raster images).
 - Creates `<examples_dataset>/rasterized_tiles_aggregated` with the
    corresponding aggregated results
+
+<img align="middle" src="images/examples/web_label_rasterization_aggregation_example.png" width="50%"/>
