@@ -88,6 +88,24 @@ using the *raster* data of the *ISPRS Potsdam* dataset.
 
 <img align="middle" src="images/examples/eot_label_tiling_geojson_example.png" width="50%"/>
 
+### EOT Color Fusion (`eot_color_fusion_example.py`)
+  - Performs the full pipeline (similar to `eot_label_fusion_example.py`), but
+     uses the RGB raster images to visualize the tiling and the fusion step.
+  - Creates the following directories:
+    - `<examples_dataset>/image_tiles`
+    - `<examples_dataset>/predicted_tiles`
+    - `<examples_dataset>/fused_tiles`
+    - `<examples_dataset>/fused_tiles_aggregated`
+    - `<examples_dataset>/comparison_tiles`
+    - `<examples_dataset>/comparison_tiles_aggregated`
+  - The tile prediction step performs a dummy segmentation which draws a
+     rectangle on each rgb tile denoting the corresponding reliable area.
+  - The fused tiles in `<examples_dataset>/fused_tiles` and
+     `<examples_dataset>/fused_tiles_aggregated` show the composition of the
+     reliable areas of each tile.
+
+<img align="middle" src="images/examples/eot_color_fusion_example.png" width="50%"/>
+
 ### EOT Label Fusion (`eot_label_fusion_example.py`)
   - Performs the full pipeline (tiling, tile fusion, tile aggregation) using
      the label raster images
@@ -106,24 +124,6 @@ using the *raster* data of the *ISPRS Potsdam* dataset.
      reliable areas of each tile.
 
 <img align="middle" src="images/examples/eot_label_fusion_example.png" width="50%"/>
-
-### EOT Color Fusion (`eot_color_fusion_example.py`)
-  - Performs the full pipeline (similar to `eot_label_fusion_example.py`), but
-     uses the RGB raster images to visualize the tiling and the fusion step.
-  - Creates the following directories:
-    - `<examples_dataset>/image_tiles`
-    - `<examples_dataset>/predicted_tiles`
-    - `<examples_dataset>/fused_tiles`
-    - `<examples_dataset>/fused_tiles_aggregated`
-    - `<examples_dataset>/comparison_tiles`
-    - `<examples_dataset>/comparison_tiles_aggregated`
-  - The tile prediction step performs a dummy segmentation which draws a
-     rectangle on each rgb tile denoting the corresponding reliable area.
-  - The fused tiles in `<examples_dataset>/fused_tiles` and
-     `<examples_dataset>/fused_tiles_aggregated` show the composition of the
-     reliable areas of each tile.
-
-<img align="middle" src="images/examples/eot_color_fusion_example.png" width="50%"/>
 
 ## Web Map examples using the ISPRS Potsdam dataset:
 
