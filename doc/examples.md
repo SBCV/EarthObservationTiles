@@ -100,11 +100,14 @@ using the *raster* data of the *ISPRS Potsdam* dataset.
     - `<examples_dataset>/comparison_tiles_aggregated`
   - The tile prediction step performs a dummy segmentation which draws a
      rectangle on each rgb tile denoting the corresponding reliable area.
-  - The fused tiles in `<examples_dataset>/fused_tiles` and
-     `<examples_dataset>/fused_tiles_aggregated` show the composition of the
-     reliable areas of each tile.
-
-<img align="middle" src="images/examples/eot_color_fusion_example.png" width="50%"/>
+    - <img align="middle" src="images/examples/eot_color_fusion_tile_reliable_area.png" width="25%"/>
+  - The fused tiles in `<examples_dataset>/fused_tiles` show the fused results
+     for each tile containing the reliable areas of overlapping tiles.
+    - <img align="middle" src="images/examples/eot_color_fusion_tile_aggregated.png" width="25%"/>
+  - The aggregated fused tiles in `<examples_dataset>/fused_tiles_aggregated`
+     show the composition of the reliable areas of all tiles relative to the
+     tiling of the raster image.
+    - <img align="middle" src="images/examples/eot_color_fusion_example.png" width="50%"/>
 
 ### EOT Label Fusion (`eot_label_fusion_example.py`)
   - Performs the full pipeline (tiling, tile fusion, tile aggregation) using
@@ -119,11 +122,15 @@ using the *raster* data of the *ISPRS Potsdam* dataset.
   - The tile prediction step performs a dummy segmentation, i.e. it draws a
      rectangle on each tile denoting the corresponding reliable area (using a
      new index in the color palette)
-  - The fused tiles in `<examples_dataset>/fused_tiles` and
-     `<examples_dataset>/fused_tiles_aggregated` show the composition of the
-     reliable areas of each tile.
+    - <img align="middle" src="images/examples/eot_label_fusion_tile_reliable_area.png" width="25%"/>
+  - The fused tiles in `<examples_dataset>/fused_tiles` show the fused results
+     for each tile containing the reliable areas of overlapping tiles.
+    - <img align="middle" src="images/examples/eot_label_fusion_tile_aggregated.png" width="25%"/>
+  - The aggregated fused tiles in `<examples_dataset>/fused_tiles_aggregated`
+     show the composition of the reliable areas of all tiles relative to the
+     tiling of the raster image.
+    - <img align="middle" src="images/examples/eot_label_fusion_example.png" width="50%"/>
 
-<img align="middle" src="images/examples/eot_label_fusion_example.png" width="50%"/>
 
 ## Web Map examples using the ISPRS Potsdam dataset:
 
