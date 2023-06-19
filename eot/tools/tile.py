@@ -802,7 +802,6 @@ def _write_tile_overview(
     num_total_tiles = sum(
         [len(tiles) for tiles in raster_fp_to_tiles.values()]
     )
-    _check_tile_to_raster_fps(tile_to_raster_fps)
 
     # Depending on the no_data_threshold only a subset of tiles is processed
     # (i.e. is actually written to disk)
@@ -952,6 +951,7 @@ def main(args):
             ]
 
     tile_to_raster_fps = _compute_tile_to_raster_fps(args, raster_fp_to_tiles)
+    _check_tile_to_raster_fps(tile_to_raster_fps)
     total_tile_number = _compute_total_tile_number(args, raster_fp_to_tiles)
 
     (
