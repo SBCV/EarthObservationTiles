@@ -68,7 +68,8 @@ def create_geojson_for_label_tiles(
     test_images_dp,
     test_labels_dp,
     categories,
-    grid_json_fn,
+    odp,
+    grid_json_fn="grid.json",
     lazy=False,
 ):
     dataset_tile_type = TilePathManager.get_tile_type_from_dir(test_images_dp)
@@ -81,7 +82,7 @@ def create_geojson_for_label_tiles(
                 os.path.basename(original_ifp)
             )[0]
             geojson_odp = os.path.join(
-                test_labels_dp, "geojson_summary", masks_raster_name
+                odp, "geojson_summary", masks_raster_name
             )
             run_aggregate(
                 masks_idp=test_labels_dp,
@@ -93,7 +94,7 @@ def create_geojson_for_label_tiles(
                 lazy=lazy,
             )
     elif dataset_tile_type == MercatorTile:
-        geojson_odp = os.path.join(test_labels_dp, "geojson_summary")
+        geojson_odp = os.path.join(odp, "geojson_summary")
         run_aggregate(
             masks_idp=test_labels_dp,
             categories=categories,

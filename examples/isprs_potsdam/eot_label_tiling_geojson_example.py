@@ -58,13 +58,14 @@ def main():
     #  a geojson for each category defining the location of the corresponding
     #  pixels.
     create_geojson_for_label_tiles(
-        raster_data_idp,
-        label_search_regex,
-        label_ignore_regex,
-        label_tile_dp,
-        label_tile_dp,
-        categories.get_non_ignore_categories(),
-        grid_json_fn,
+        test_data_dp=raster_data_idp,
+        search_regex=label_search_regex,
+        ignore_regex=label_ignore_regex,
+        test_images_dp=label_tile_dp,
+        test_labels_dp=label_tile_dp,
+        categories=categories.get_non_ignore_categories(),
+        odp=label_tile_dp,
+        grid_json_fn=grid_json_fn,
     )
 
 
