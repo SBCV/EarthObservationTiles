@@ -56,6 +56,8 @@ def get_regex_fps_in_dp(idp, search_regex, ignore_regex):
 
     glob_search_expr = os.path.join(idp, search_regex)
     search_ifps = glob.glob(glob_search_expr, recursive=True)
+    err_msg = f"Found no images using {glob_search_expr}"
+    assert len(search_ifps), err_msg
 
     glob_ignore_expr = os.path.join(idp, ignore_regex)
     ignore_ifps = glob.glob(glob_ignore_expr, recursive=True)
