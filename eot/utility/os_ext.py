@@ -53,6 +53,7 @@ def check_ext(ext):
 
 
 def get_regex_fps_in_dp(idp, search_regex, ignore_regex):
+    assert os.path.isdir(idp)
 
     glob_search_expr = os.path.join(idp, search_regex)
     search_ifps = glob.glob(glob_search_expr, recursive=True)
