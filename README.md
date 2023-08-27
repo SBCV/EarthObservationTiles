@@ -1,4 +1,4 @@
-# Geo-Tiles
+# Earth Observation Tiles
 Geo-Tiles for Semantic Segmentation of Earth Observation Imagery
 
 ## Getting Started
