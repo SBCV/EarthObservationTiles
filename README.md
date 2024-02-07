@@ -1,10 +1,11 @@
-# Geo-Tiles
+# Earth Observation Tiles
 Geo-Tiles for Semantic Segmentation of Earth Observation Imagery
 
 ## Getting Started
 - [Project Page](https://sbcv.github.io/projects/earth_observation_tiles)
 - [Installation Instructions](doc/install_instructions.md)
 - [Examples](doc/examples.md)
+- [Consistent Geojson Visualization in QGIS](https://github.com/SBCV/QGIS-Plugin-Geojson-Filling)
 
 ## Example Results
 
