@@ -52,6 +52,10 @@ def check_ext(ext):
         assert ext[0] == ".", "Invalid extension, leading dot missing"
 
 
+def has_specific_file_ext(ifp, ext):
+    return os.path.splitext(ifp)[1].lower() in ext
+
+
 def get_regex_fps_in_dp(idp, search_regex, ignore_regex):
     assert os.path.isdir(idp)
 
