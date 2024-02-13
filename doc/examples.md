@@ -21,8 +21,8 @@ The examples use either the
 [ISPRS Potsdam](https://www.isprs.org/education/benchmarks/UrbanSemLab/default.aspx) or the
 [Open Cities AI](https://mlhub.earth/data/open_cities_ai_challenge) dataset.
 The instructions to prepare both datasets are located
-[here](doc/examples_potsdam_preparation.md) and
-[here](doc/examples_open_cities_ai_preparation.md). The Potsdam dataset has
+[here](examples_potsdam_preparation.md) and
+[here](examples_open_cities_ai_preparation.md). The Potsdam dataset has
 smaller file sizes and more category labels and is therefore more suitable
 for testing. Only the provided rasterization examples require the geojson files
 contained in the Open Cities AI dataset.
