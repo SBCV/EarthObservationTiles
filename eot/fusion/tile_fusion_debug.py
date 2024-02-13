@@ -1,6 +1,5 @@
 import copy
 import numpy as np
-import skimage
 import cv2
 import matplotlib
 import matplotlib.pyplot as plt
@@ -119,6 +118,8 @@ def _get_horizontal_vertical_neighbor_image(
             tile_data_resized = cv2.resize(tile_data, tile_data_shape_2d)
         elif len(tile_data.shape) == 3:
             # # Worked only for color data
+            import skimage
+
             tile_data_resized = skimage.transform.resize(
                 tile_data, tile_data_shape_2d
             )
