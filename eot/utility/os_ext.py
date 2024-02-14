@@ -17,7 +17,6 @@ def clear_dir(idp):
 def delete_files_in_dir(
     idp, ext=None, target_str_or_list=None, sort_result=True, recursive=False
 ):
-
     """ext can be a list of extensions or a single extension
     (e.g. ['.jpg', '.png'] or '.jpg')
     """
@@ -99,7 +98,6 @@ def get_file_paths_in_dir(
     natural_sorting=False,
     recursive=False,
 ):
-
     """ext can be a list of extensions or a single extension
     (e.g. ['.jpg', '.png'] or '.jpg')
     """
@@ -199,9 +197,7 @@ def get_corresponding_files_in_directories(
     get_correspondence_callback=None,
     sort_result=True,
 ):
-
     if get_correspondence_callback is None:
-
         def get_correspondence_callback(fn_1):
             return fn_1 + suffix_2
 
@@ -223,7 +219,6 @@ def get_corresponding_files_in_directories(
 
 
 def delete_subdirs(idp, filter_dp, recursive=False, dry_run=True):
-
     sub_dirs = get_subdirs(idp, recursive=recursive)
     sub_dirs_to_delete = []
     for sub_dir in sub_dirs:
@@ -240,7 +235,6 @@ def delete_subdirs(idp, filter_dp, recursive=False, dry_run=True):
 
 
 def get_subdirs(idp, base_name_only=False, recursive=False):
-
     if recursive:
         sub_dps = []
         if base_name_only:
@@ -313,7 +307,6 @@ def get_folders_matching_scheme(path_to_image_folders, pattern):
 
 
 def get_most_specific_parent_dir(possible_parent_dirs, possible_sub_dir):
-
     # print 'possible_sub_dir'
     # print possible_sub_dir
 
