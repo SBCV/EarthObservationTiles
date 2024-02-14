@@ -5,6 +5,15 @@ from functools import reduce
 import re
 
 
+def clear_dir(idp):
+    for fn in os.listdir(idp):
+        filepath = os.path.join(idp, fn)
+        try:
+            shutil.rmtree(filepath)
+        except OSError:
+            os.remove(filepath)
+
+
 def delete_files_in_dir(
     idp, ext=None, target_str_or_list=None, sort_result=True, recursive=False
 ):
