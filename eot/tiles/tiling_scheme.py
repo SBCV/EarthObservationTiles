@@ -35,13 +35,13 @@ class TilingScheme(StructuredRepresentation):
         return self.name
 
     def represents_mercator_tiling(self):
-        return self._is_mercator_tile
+        return bool(self._is_mercator_tile)
 
     def represents_local_image_tiling(self):
-        return self._is_local_image_tile
+        return bool(self._is_local_image_tile)
 
     def uses_border_tiles(self):
-        return self._use_border_tiles
+        return bool(self._use_border_tiles)
 
     def set_border_tiles_flag(self, use_border_tiles):
         self._use_border_tiles = use_border_tiles
