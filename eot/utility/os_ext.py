@@ -273,8 +273,7 @@ def mkdir_safely(odp):
 
 
 def makedirs_safely(odp):
-    if not os.path.isdir(odp):
-        os.makedirs(odp)
+    os.makedirs(odp, exist_ok=True)
 
 
 def ensure_trailing_slash(some_path):
