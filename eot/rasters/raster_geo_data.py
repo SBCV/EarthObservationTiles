@@ -1,7 +1,7 @@
 import numpy as np
 import rasterio
 from rasterio.warp import calculate_default_transform
-from eot.rasters.raster_writing import write_raster
+from eot.rasters.raster_writing import write_raster, _parse_transfrom_crs_gcps
 from eot.utility.conversion import convert_affine_to_numpy
 
 
@@ -140,3 +140,21 @@ def ensure_geo_transform(ifp, ofp, check_validity=True):
         ifp, check_validity
     )
     write_geo_data(ifp, ofp, transform=transform, crs=crs)
+
+
+def copy_geo_meta_data(ifp_with_geo, ifp_with_image_data, ofp):
+    with rasterio.open(ifp_with_geo) as src_with_geo:
+        transform, crs, gcps = _parse_transfrom_crs_gcps(
+            src_with_geo.transform,
+            src_with_geo.crs,
+            src_with_geo.gcps,
+            check_result=True
+        )
+        with rasterio.open(ifp_with_image_data) as src_with_image_data:
+            write_raster(
+                src_with_image_data,
+                ofp,
+                transform=transform,
+                crs=crs,
+                gcps=gcps
+            )
