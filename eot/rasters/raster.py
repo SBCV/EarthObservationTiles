@@ -106,9 +106,32 @@ class Raster(BoundedPixelArea):
         return raster_data
 
     def get_raster_data_as_numpy(
-        self, image_axis_order=True, add_alpha_channel=False, **kwargs
+        self,
+        image_axis_order=True,
+        add_alpha_channel=False,
+        apply_color_palette=False,
+        **kwargs
     ):
         data = self.read(**kwargs)
+        if apply_color_palette:
+            # https://rasterio.groups.io/g/main/topic/exporting_single_banc_with_a/67571864
+            #   Author of rasterio: The library doesn't automatically convert
+            #    single band color-mapped data to 3-band RGB data. You'll need to
+            #    construct a new output array filled with values from the colormap
+            #    and then write that to the output file.
+            assert len(data.shape) == 3
+            channel, height, width = data.shape
+            assert channel == 1
+            colormap = self.colormap(1)
+            palette = np.array([value for value in colormap.values()], dtype=np.uint8)
+            rgb_image = np.zeros((3, height, width), dtype=np.uint8)
+            for i in range(3):
+                # palette[image] is a (height, width, 3) array where each index
+                # in image is replaced by the corresponding RGB color from the
+                # palette. Essentially, it looks up the RGB color for each
+                # index in image.
+                rgb_image[i] = palette[data, i]
+            data = rgb_image
         if image_axis_order:
             # channel, height, width -> height, width, channel
             data = np.moveaxis(data, 0, 2)
