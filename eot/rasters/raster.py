@@ -123,7 +123,7 @@ class Raster(BoundedPixelArea):
             channel, height, width = data.shape
             assert channel == 1
             colormap = self.colormap(1)
-            palette = np.array([value for value in colormap.values()], dtype=np.uint8)
+            palette = np.array(list(colormap.values()), dtype=np.uint8)
             rgb_image = np.zeros((3, height, width), dtype=np.uint8)
             for i in range(3):
                 # palette[image] is a (height, width, 3) array where each index
