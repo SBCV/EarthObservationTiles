@@ -1,12 +1,12 @@
 import json
 
-import psycopg2
 import supermercado
 from eot.tiles.mercator_tile import MercatorTile
 
 
 def convert_tiles_to_granules(tiles, pg):
     """Retrieve Intersecting Sentinel Granules from tiles."""
+    import psycopg2
 
     conn = psycopg2.connect(pg)
     db = conn.cursor()
