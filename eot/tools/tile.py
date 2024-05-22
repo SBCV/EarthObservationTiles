@@ -820,9 +820,9 @@ def _write_tile_overview(
         non_shared_output = []
         shared_output = []
 
-        overall_tile_line = f"{len(disk_tiles_in_single_raster)} non-shared tiles on disk ({num_total_tiles} non-shared tiles in all raster images){sep}"
+        overall_tile_line = f"{len(disk_tiles_in_single_raster)} non-shared tiles on disk ({num_total_tiles} total tiles in all raster images){sep}"
         non_shared_output.append(overall_tile_line + sep)
-        overall_tile_line = f"{len(disk_tiles_in_multiple_raster)} shared tiles on disk ({num_total_tiles} shared tiles in all raster images){sep}"
+        overall_tile_line = f"{len(disk_tiles_in_multiple_raster)} shared tiles on disk ({num_total_tiles} total tiles in all raster images){sep}"
         shared_output.append(overall_tile_line + sep)
 
         raster_fp_to_disk_non_shared_tiles = _compute_raster_fp_to_disk_tiles(
