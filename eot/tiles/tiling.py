@@ -131,7 +131,7 @@ class Tiler:
             tiling_scheme_origin_int = convert_offset_to_int(
                 remaining_float / 2
             )
-        elif tile_alignment == TileAlignment.aligned_to_image_border:
+        elif tile_alignment == TileAlignment.aligned_to_image_border.value:
             tiling_scheme_origin_int = 0
         else:
             assert False
