@@ -773,7 +773,7 @@ def _check_tile_to_raster_fps(tile_to_raster_fps):
         for tile, raster_fps in tile_to_raster_fps.items():
             # In the case of ImagePixelTile the tile should only be part of a
             # single raster
-            msg = f"{raster_fps}"
+            msg = f"{tile}: {raster_fps}"
             assert len(raster_fps) == 1, msg
 
 
