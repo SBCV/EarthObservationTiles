@@ -59,13 +59,13 @@ def run_tile_images(
         assert zoom_level is not None and isinstance(zoom_level, int)
         tool_param_list += ["--zoom", str(zoom_level)]
     elif tiling_scheme.is_in_pixel():
-        assert tiling_scheme.get_tile_size_in_pixel() is not None
+        assert tiling_scheme.get_tile_size_in_pixel(True) is not None
         tile_size_string = ",".join(
             str(tile_size)
             for tile_size in tiling_scheme.get_tile_size_in_pixel(True)
         )
         tool_param_list += ["--input_tile_size_in_pixel", tile_size_string]
-        if tiling_scheme.get_tile_stride_in_pixel() is not None:
+        if tiling_scheme.get_tile_stride_in_pixel(True) is not None:
             tile_stride_string = ",".join(
                 str(tile_stride)
                 for tile_stride in tiling_scheme.get_tile_stride_in_pixel(True)
