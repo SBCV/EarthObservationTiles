@@ -84,6 +84,13 @@ class DatasetCategories:
         json_str = f"[{','.join(json_str_list)}]"
         return json_str
 
+    def to_coco_json_list(self):
+        coco_list = [
+            category.to_coco_json_dict()
+            for category in self.get_non_ignore_categories()
+        ]
+        return coco_list
+
     def get_non_ignore_categories(self):
         non_ignore_categories = type(self)(
             categories=[

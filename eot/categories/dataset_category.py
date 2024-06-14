@@ -20,6 +20,8 @@ class DatasetCategory:
         weight: float = 1.0,
         is_ignore_category: bool = False,
         is_active: bool = True,
+        is_thing: bool = None,
+        supercategory: str = None,
     ):
         self.name = name.lower()
         self.palette_index = palette_index
@@ -28,8 +30,32 @@ class DatasetCategory:
         self.weight = weight
         self.is_ignore_category = is_ignore_category
         self.is_active = is_active
+        self.is_thing = is_thing
+        if supercategory is None:
+            supercategory = self.name
+        self.supercategory = supercategory
 
         self._ensure_tuples()
+
+    def __getitem__(self, item):
+        # https://stackoverflow.com/questions/62560890/how-to-make-custom-data-class-subscriptable
+        return getattr(self, item)
+
+    def __hash__(self):
+        return hash(self.name)
+
+    def __eq__(self, other):
+        if isinstance(other, DatasetCategory):
+            return self.name == other.name
+        return False
+
+    @property
+    def isthing(self):
+        return self.is_thing
+
+    @property
+    def color(self):
+        return self.palette_color
 
     @classmethod
     def from_json_string(cls, cat_json_str):
@@ -48,3 +74,13 @@ class DatasetCategory:
 
     def to_json_string(self):
         return json.dumps(vars(self))
+
+    def to_coco_json_dict(self):
+        coco_dict = {
+            "supercategory": self.supercategory,
+            "color": self.palette_color,
+            "isthing": self.is_thing,
+            "id": self.palette_index,
+            "name": self.name,
+        }
+        return coco_dict
