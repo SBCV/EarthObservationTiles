@@ -93,6 +93,7 @@ def get_file_paths_in_dir(
     ignore_str_or_list_in_fn=None,
     ignore_str_or_list_in_fp=None,
     base_name_only=False,
+    relative_fp_only=False,
     without_ext=False,
     sort_result=True,
     natural_sorting=False,
@@ -101,6 +102,7 @@ def get_file_paths_in_dir(
     """ext can be a list of extensions or a single extension
     (e.g. ['.jpg', '.png'] or '.jpg')
     """
+    assert not base_name_only or not relative_fp_only
 
     if recursive:
         ifp_s = []
@@ -158,6 +160,9 @@ def get_file_paths_in_dir(
     if base_name_only:
         ifp_s = [os.path.basename(ifp) for ifp in ifp_s]
 
+    if relative_fp_only:
+        ifp_s = [os.path.relpath(ifp, idp) for ifp in ifp_s]
+
     if without_ext:
         ifp_s = [os.path.splitext(ifp)[0] for ifp in ifp_s]
 
@@ -173,6 +178,7 @@ def get_file_paths_in_dir(
 def get_image_file_paths_in_dir(
     idp,
     base_name_only=False,
+    relative_fp_only=False,
     without_ext=False,
     sort_result=True,
     recursive=True,
@@ -183,6 +189,7 @@ def get_image_file_paths_in_dir(
         ext=[".jpg", ".png", ".tif"],
         target_str_or_list_in_fn=target_str_or_list,
         base_name_only=base_name_only,
+        relative_fp_only=relative_fp_only,
         without_ext=without_ext,
         sort_result=sort_result,
         recursive=recursive,
