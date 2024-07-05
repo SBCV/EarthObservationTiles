@@ -158,3 +158,11 @@ def copy_geo_meta_data(ifp_with_geo, ifp_with_image_data, ofp):
                 crs=crs,
                 gcps=gcps
             )
+
+
+def copy_geo_transform(ifp, iofp, check_validity=True):
+    """Copy geo transform from ifp to iofp."""
+    transform, crs = get_geo_transform_pixel_to_crs_from_file(
+        ifp, check_validity
+    )
+    write_geo_data(iofp, iofp, transform=transform, crs=crs)
