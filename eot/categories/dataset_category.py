@@ -79,7 +79,7 @@ class DatasetCategory:
         coco_dict = {
             "supercategory": self.supercategory,
             "color": self.palette_color,
-            "isthing": self.is_thing,
+            "isthing": int(self.is_thing),
             "id": self.palette_index,
             "name": self.name,
         }
