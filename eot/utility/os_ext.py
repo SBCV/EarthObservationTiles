@@ -64,7 +64,7 @@ def has_specific_file_ext(ifp, ext):
     return os.path.splitext(ifp)[1].lower() in ext
 
 
-def get_regex_fps_in_dp(idp, search_regex, ignore_regex):
+def get_regex_fps_in_dp(idp, search_regex, ignore_regex, sort_results=True):
     assert os.path.isdir(idp)
 
     glob_search_expr = os.path.join(idp, search_regex)
@@ -81,6 +81,9 @@ def get_regex_fps_in_dp(idp, search_regex, ignore_regex):
         f"Found no images using {{{glob_search_expr} / {glob_ignore_expr}}}"
     )
     assert len(ifps), err_msg
+
+    if sort_results:
+        ifps = sorted(ifps)
 
     return ifps
 
