@@ -149,6 +149,10 @@ class TilePathManager:
         return tiling_result_fp
 
     @classmethod
+    def get_tiling_panoptic_json_fp_from_dir(cls, root_idp):
+        return os.path.join(root_idp, "panoptic.json")
+
+    @classmethod
     def read_relative_tile_fp_scheme_from_dir(cls, root_idp):
         dataset_tile_types = cls._get_dataset_tile_types(root_idp)
 
