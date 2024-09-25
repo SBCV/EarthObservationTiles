@@ -16,6 +16,9 @@ class DatasetCategories:
         self._categories = categories
         self.default_palette_color = default_palette_color
 
+    def __repr__(self):
+        return str(self._categories)
+
     def __len__(self):
         return self.categories.__len__()
 

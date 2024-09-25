@@ -1,5 +1,6 @@
 import json
 from typing import List, Tuple, Union
+from pprint import pprint
 
 # https://stackoverflow.com/questions/41914522/mypy-is-it-possible-to-define-a-shortcut-for-complex-type
 ColorValue = Union[
@@ -36,6 +37,9 @@ class DatasetCategory:
         self.supercategory = supercategory
 
         self._ensure_tuples()
+
+    def __repr__(self):
+        return f"{vars(self)}"
 
     def __getitem__(self, item):
         # https://stackoverflow.com/questions/62560890/how-to-make-custom-data-class-subscriptable
