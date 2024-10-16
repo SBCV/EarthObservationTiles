@@ -58,6 +58,11 @@ def add_parser(subparser, formatter_class):
         type=str,
         help="Categories",
     )
+    inp.add_argument(
+        "--panoptic_json_ifp",
+        type=str,
+        help="path to panoptic json file [optional]",
+    )
 
     out = parser.add_argument_group("Output")
     out.add_argument(
@@ -986,3 +991,13 @@ def main(args):
     raster_tiling_results.write_as_txt(
         TilePathManager.get_tiling_txt_fp_from_dir(args.out)
     )
+
+    if args.panoptic_json_ifp is not None:
+        from eot.tiles.tile_panoptic import split_panoptic_json
+        json_ofp = TilePathManager.get_tiling_panoptic_json_fp_from_dir(args.out)
+        split_panoptic_json(
+            raster_tiling_results,
+            TilePathManager.get_relative_tile_fp,
+            json_ifp=args.panoptic_json_ifp,
+            json_ofp=json_ofp,
+        )
