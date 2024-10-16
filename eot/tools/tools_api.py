@@ -44,6 +44,7 @@ def run_tile_images(
     cover_csv_ifp=None,
     convert_images_to_labels=False,
     categories=None,
+    panoptic_json_ifn="panoptic.json",
     no_data_threshold=100,
     clear_split_data=True,
     debug_max_number_tiles_per_image=None,
@@ -141,6 +142,11 @@ def run_tile_images(
         assert categories is not None
         tool_param_list += ["--categories"]
         tool_param_list += [categories.to_json_string()]
+
+        panoptic_json_ifp = os.path.join(tif_idp, panoptic_json_ifn)
+        if os.path.isfile(panoptic_json_ifp):
+            tool_param_list += ["--panoptic_json_ifp"]
+            tool_param_list.append(panoptic_json_ifp)
 
     if cover_csv_ifp is not None:
         tool_param_list += ["--cover_csv_ifp", cover_csv_ifp]
