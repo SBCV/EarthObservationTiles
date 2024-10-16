@@ -74,7 +74,8 @@ class DatasetCategory:
             tuple(label_value_iterable)
             for label_value_iterable in self.label_values
         ]
-        self.palette_color = tuple(self.palette_color)
+        if self.palette_color is not None:
+            self.palette_color = tuple(self.palette_color)
 
     def to_json_string(self):
         return json.dumps(vars(self))
